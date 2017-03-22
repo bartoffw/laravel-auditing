@@ -33,4 +33,20 @@ class AuditSession extends Model
         'SessionId',
         'UserId'
     ];
+
+
+    public static function findOrCreate($sessionId, $userId)
+    {
+        $session = AuditSession::
+            where('SessionId', $sessionId)
+            ->where('UserId', $userId)
+            ->first();
+        if (!$session) {
+            $session = AuditSession::create([
+                'SessionId' => $sessionId,
+                'UserId' => $userId
+            ]);
+        }
+        return $session;
+    }
 }

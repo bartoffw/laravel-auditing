@@ -31,10 +31,7 @@ class Database implements AuditDriver
         $toAudit = $model->toAudit();
 
         $table = AuditTable::findOrCreate($model->getTable());
-        $session = AuditSession::create([
-            'SessionId' => session()->getId(),
-            'UserId' => $toAudit['user_id']
-        ]);
+        $session = AuditSession::findOrCreate(session()->getId(), $toAudit['user_id']);
         $transaction = AuditTransaction::create([
             'AuditSessionId' => $session->AuditSessionId,
             'Transaction' => date('YmdHis') . md5(uniqid(rand(), true))
