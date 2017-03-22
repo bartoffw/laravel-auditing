@@ -44,8 +44,8 @@ class Database implements AuditDriver
                 'Event' => $toAudit['event'],
                 'PrimaryKey' => $toAudit['auditable_id'],
                 'FieldName' => $attribute,
-                'OldValue' => $toAudit['old_values'][$attribute],
-                'NewValue' => $toAudit['new_values'][$attribute]
+                'OldValue' => isset($toAudit['old_values'][$attribute]) ? $toAudit['old_values'][$attribute] : null,
+                'NewValue' => isset($toAudit['new_values'][$attribute]) ? $toAudit['new_values'][$attribute] : null
             ]);
         }
     }
