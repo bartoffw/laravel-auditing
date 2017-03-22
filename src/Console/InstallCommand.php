@@ -42,9 +42,6 @@ class InstallCommand extends Command
             '--provider' => AuditingServiceProvider::class,
         ]);
 
-        $this->info('Publishing the migration file');
-        Artisan::call('auditing:table');
-
         $this->info('Successfully installed Laravel Auditing! Enjoy :)');
     }
 }

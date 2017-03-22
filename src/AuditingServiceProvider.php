@@ -16,7 +16,6 @@ namespace OwenIt\Auditing;
 
 use Illuminate\Support\ServiceProvider;
 use OwenIt\Auditing\Console\AuditDriverMakeCommand;
-use OwenIt\Auditing\Console\AuditTableCommand;
 use OwenIt\Auditing\Console\InstallCommand;
 use OwenIt\Auditing\Contracts\Auditor;
 
@@ -65,7 +64,6 @@ class AuditingServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands([
-            AuditTableCommand::class,
             AuditDriverMakeCommand::class,
             InstallCommand::class,
         ]);
