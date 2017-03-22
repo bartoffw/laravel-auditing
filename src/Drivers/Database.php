@@ -16,7 +16,10 @@ namespace OwenIt\Auditing\Drivers;
 
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Contracts\AuditDriver;
-use OwenIt\Auditing\Models\Audit;
+use OwenIt\Auditing\Models\AuditField;
+use OwenIt\Auditing\Models\AuditSession;
+use OwenIt\Auditing\Models\AuditTable;
+use OwenIt\Auditing\Models\AuditTransaction;
 
 class Database implements AuditDriver
 {
@@ -25,7 +28,29 @@ class Database implements AuditDriver
      */
     public function audit(Auditable $model)
     {
-        return Audit::create($model->toAudit());
+        $toAudit = $model->toAudit();
+
+        $table = AuditTable::findOrCreate($model->getTable());
+        $session = AuditSession::create([
+            'SessionId' => session_id(),
+            'UserId' => $toAudit['user_id']
+        ]);
+        $transaction = AuditTransaction::create([
+            'AuditSessionId' => $session->AuditSessionId,
+            'Transaction' => date('YmdHis') . md5(uniqid(rand(), true))
+        ]);
+
+        foreach ($toAudit['new_values'] as $attribute => $newValue) {
+            AuditField::create([
+                'AuditTransactionId' => $transaction->AuditTransactionId,
+                'AuditTableId' => $table->AuditTableId,
+                'Event' => $toAudit['event'],
+                'PrimaryKey' => $toAudit['auditable_id'],
+                'FieldName' => $attribute,
+                'OldValue' => $toAudit['old_values'][$attribute],
+                'NewValue' => $toAudit['new_values'][$attribute]
+            ]);
+        }
     }
 
     /**

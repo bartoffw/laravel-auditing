@@ -25,4 +25,17 @@ class AuditTable extends Model
      * {@inheritdoc}
      */
     protected $dates = ['CreatedOn'];
+
+
+    public static function findOrCreate($tableName)
+    {
+        // TODO: ignoring database name for now
+        $table = AuditTable::where('TableName', $tableName)->first();
+        if (!$table) {
+            $table = AuditTable::create([
+                'TableName' => $tableName
+            ]);
+        }
+        return $table;
+    }
 }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\UserResolver;
-use OwenIt\Auditing\Models\Audit as AuditModel;
+use OwenIt\Auditing\Models\AuditField;
 use RuntimeException;
 use UnexpectedValueException;
 
@@ -58,8 +58,10 @@ trait Auditable
      */
     public function audits()
     {
-        return $this->morphMany(AuditModel::class, 'auditable')
-            ->orderBy('created_at', 'DESC');
+        return $this->hasMany(AuditField::class, 'PrimaryKey')
+            ->join('tblAuditTable', 'tblAuditTable.AuditTableId', '=', 'tblAuditField.AuditTableId')
+            ->where('tblAuditTable.TableName', $this->table)
+            ->orderBy('CreatedOn', 'DESC');
     }
 
     /**
