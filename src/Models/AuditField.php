@@ -25,4 +25,17 @@ class AuditField extends Model
      * {@inheritdoc}
      */
     protected $dates = ['CreatedOn'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $fillable = [
+        'AuditTransactionId',
+        'AuditTableId',
+        'Event',
+        'PrimaryKey',
+        'FieldName',
+        'OldValue',
+        'NewValue'
+    ];
 }

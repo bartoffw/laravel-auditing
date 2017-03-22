@@ -26,6 +26,14 @@ class AuditTable extends Model
      */
     protected $dates = ['CreatedOn'];
 
+    /**
+     * {@inheritdoc}
+     */
+    protected $fillable = [
+        'DatabaseName',
+        'TableName'
+    ];
+
 
     public static function findOrCreate($tableName)
     {

@@ -25,4 +25,12 @@ class AuditSession extends Model
      * {@inheritdoc}
      */
     protected $dates = ['CreatedOn'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $fillable = [
+        'SessionId',
+        'UserId'
+    ];
 }
