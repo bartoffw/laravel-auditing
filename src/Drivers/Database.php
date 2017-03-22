@@ -32,7 +32,7 @@ class Database implements AuditDriver
 
         $table = AuditTable::findOrCreate($model->getTable());
         $session = AuditSession::create([
-            'SessionId' => session_id(),
+            'SessionId' => session()->getId(),
             'UserId' => $toAudit['user_id']
         ]);
         $transaction = AuditTransaction::create([
